@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Assignment_S02_EFCore.Models.Hospital
 {
-    [PrimaryKey(nameof(PatientId),nameof(ConsultantId))]
+    [PrimaryKey(nameof(PatientId), nameof(ConsultantId))]
     internal class PatientConsultant
     {
         [ForeignKey(nameof(Patient))]

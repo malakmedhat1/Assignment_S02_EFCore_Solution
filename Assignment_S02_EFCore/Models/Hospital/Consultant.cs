@@ -12,8 +12,9 @@ namespace Assignment_S02_EFCore.Models.Hospital
         [Required]
         public string? Name { get; set; }
 
-        //[ForeignKey(nameof(Doctor.Consultants))]
-        //public int DoctorId { get; set; }
-        //public Doctor? Doctor { get; set; }
+        public ICollection<Patient> AssignedPatients { get; set; } = new HashSet<Patient>();
+
+        public ICollection<PatientConsultant> ExaminePatients { get; set; } = new HashSet<PatientConsultant>();
+
     }
 }

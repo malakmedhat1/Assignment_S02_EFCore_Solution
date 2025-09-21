@@ -4,34 +4,39 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Assignment_S02_EFCore.Configurations
 {
-    internal class Hospital_EFCore_Configurations : IEntityTypeConfiguration<Drugs>, IEntityTypeConfiguration<DrugBrand>, 
+    internal class Hospital_EFCore_Configurations : 
                                                     IEntityTypeConfiguration<NurseDrugPatient>, IEntityTypeConfiguration<Patient>,
-                                                    IEntityTypeConfiguration<Consultant>, IEntityTypeConfiguration<Nurse>,
-                                                    IEntityTypeConfiguration<PatientConsultant>, IEntityTypeConfiguration<Ward>
+                                                    IEntityTypeConfiguration<Nurse>, IEntityTypeConfiguration<PatientConsultant>,
+                                                    IEntityTypeConfiguration<Ward>
     {
-        public void Configure(EntityTypeBuilder<Drugs> builder)
-        {
-        }
-        public void Configure(EntityTypeBuilder<DrugBrand> builder)
-        {
-        }
         public void Configure(EntityTypeBuilder<NurseDrugPatient> builder)
         {
+            builder.HasKey(ndp => new { ndp.NurseID, ndp.DrugCode, ndp.PatientId });
             
-            builder.HasOne(ndp => ndp.Nurse).WithMany().HasForeignKey(ndp => ndp.NurseID);
-            builder.HasOne(ndp => ndp.Drugs).WithMany().HasForeignKey(ndp => ndp.DrugCode);
-            builder.HasOne(ndp => ndp.Patient).WithMany().HasForeignKey(ndp => ndp.PatientId);
+            builder.HasOne(ndp => ndp.Nurse)
+                .WithMany(n => n.NurseDrugGived)
+                .HasForeignKey(ndp => ndp.NurseID);
+            
+            builder.HasOne(ndp => ndp.Drugs)
+                .WithMany(d => d.DrugGived)
+                .HasForeignKey(ndp => ndp.DrugCode);
+            
+            builder.HasOne(ndp => ndp.Patient)
+                .WithMany(p => p.PatientDrugGived)
+                .HasForeignKey(ndp => ndp.PatientId);
         }
 
         public void Configure(EntityTypeBuilder<Patient> builder)
         {
-            throw new NotImplementedException();
+            builder.HasOne(p => p.HostWard)
+                .WithMany(w => w.HostPatients)
+                .HasForeignKey(p => p.HostWardId);
+
+            builder.HasOne(p => p.AssignedConsultant)
+                .WithMany(c => c.AssignedPatients)
+                .HasForeignKey(p => p.AssignedConsultantId);
         }
 
-        public void Configure(EntityTypeBuilder<Consultant> builder)
-        {
-            throw new NotImplementedException();
-        }
 
         public void Configure(EntityTypeBuilder<Nurse> builder)
         {
@@ -42,7 +47,15 @@ namespace Assignment_S02_EFCore.Configurations
 
         public void Configure(EntityTypeBuilder<PatientConsultant> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(pc => new { pc.PatientId, pc.ConsultantId });
+            
+            builder.HasOne(pc => pc.Patient)
+                .WithMany(p => p.PatientsExamine)
+                .HasForeignKey(pc => pc.PatientId);
+            
+            builder.HasOne(pc => pc.Consultant)
+                .WithMany(c => c.ExaminePatients)
+                .HasForeignKey(pc => pc.ConsultantId);
         }
 
         public void Configure(EntityTypeBuilder<Ward> builder)

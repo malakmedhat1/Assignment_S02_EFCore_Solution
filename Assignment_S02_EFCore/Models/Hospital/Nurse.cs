@@ -20,5 +20,8 @@ namespace Assignment_S02_EFCore.Models.Hospital
         public int? NerseServedId { get; set; }
         [InverseProperty(nameof(Ward.ServedNerse))]
         public Ward? NerseServed { get; set; }
+
+        public ICollection<NurseDrugPatient> NurseDrugGived { get; set; } = new HashSet<NurseDrugPatient>();
+
     }
 }

@@ -15,7 +15,7 @@ namespace Assignment_S02_EFCore.Contexts
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server = .; Database = Musician_EFCore_DB; Trusted_Connection = true; TrustServerCertificate = true");
+            optionsBuilder.UseSqlServer("Server = .; Database = Hospital_EFCore_DB; Trusted_Connection = true; TrustServerCertificate = true");
         }
 
         public DbSet<Patient> Patients { get; set; }

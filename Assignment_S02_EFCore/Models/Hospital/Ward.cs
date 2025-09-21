@@ -17,7 +17,9 @@ namespace Assignment_S02_EFCore.Models.Hospital
         [InverseProperty(nameof(Nurse.SupervisedWard))]
         public Nurse Supervisor { get; set; } = null!;
 
-
+        [InverseProperty(nameof(Nurse.NerseServed))]
         public ICollection<Nurse> ServedNerse { get; set; } = new HashSet<Nurse>();
+
+        public ICollection<Patient> HostPatients { get; set; } = new HashSet<Patient>();    
     }
 }
