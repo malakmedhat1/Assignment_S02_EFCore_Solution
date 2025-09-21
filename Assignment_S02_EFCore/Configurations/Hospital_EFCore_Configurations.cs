@@ -7,7 +7,7 @@ namespace Assignment_S02_EFCore.Configurations
     internal class Hospital_EFCore_Configurations : 
                                                     IEntityTypeConfiguration<NurseDrugPatient>, IEntityTypeConfiguration<Patient>,
                                                     IEntityTypeConfiguration<Nurse>, IEntityTypeConfiguration<PatientConsultant>,
-                                                    IEntityTypeConfiguration<Ward>
+                                                    IEntityTypeConfiguration<Ward>, IEntityTypeConfiguration<DrugBrand>
     {
         public void Configure(EntityTypeBuilder<NurseDrugPatient> builder)
         {
@@ -63,6 +63,14 @@ namespace Assignment_S02_EFCore.Configurations
             builder.HasOne(w => w.Supervisor)
                 .WithOne(n => n.SupervisedWard)
                 .HasForeignKey<Ward>(w => w.SupervisorId);
+        }
+
+        public void Configure(EntityTypeBuilder<DrugBrand> builder)
+        {
+            builder.HasKey(db => new { db.Brand, db.DrugCode });
+            builder.HasOne(db => db.Drugs)
+                .WithMany(d => d.Brands)
+                .HasForeignKey(db => db.DrugCode);
         }
     }
     

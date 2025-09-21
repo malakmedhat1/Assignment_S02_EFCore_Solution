@@ -13,5 +13,6 @@ namespace Assignment_S02_EFCore.Models.Hospital
         public string Dosage { get; set; }
 
         public ICollection<NurseDrugPatient> DrugGived { get; set; } = new HashSet<NurseDrugPatient>();
+        public ICollection<DrugBrand> Brands { get; set; } = new HashSet<DrugBrand>();
     }
 }

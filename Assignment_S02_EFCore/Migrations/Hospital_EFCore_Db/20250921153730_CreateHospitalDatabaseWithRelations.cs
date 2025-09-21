@@ -11,6 +11,25 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Airline");
+
+            migrationBuilder.CreateTable(
+                name: "AirLines",
+                schema: "Airline",
+                columns: table => new
+                {
+                    AirLineId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    ContPerson = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AirLines", x => x.AirLineId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Consultants",
                 columns: table => new
@@ -22,18 +41,6 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Consultants", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "drugBrands",
-                columns: table => new
-                {
-                    Brand = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DrugCode = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_drugBrands", x => new { x.Brand, x.DrugCode });
                 });
 
             migrationBuilder.CreateTable(
@@ -91,6 +98,23 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                 });
 
             migrationBuilder.CreateTable(
+                name: "Routes",
+                schema: "Airline",
+                columns: table => new
+                {
+                    RouteId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Origin = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Destination = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Classification = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Distance = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Routes", x => x.RouteId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Songs",
                 columns: table => new
                 {
@@ -100,6 +124,119 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Songs", x => x.Title);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AirCrafts",
+                schema: "Airline",
+                columns: table => new
+                {
+                    AirCraftId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MajPilot = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Model = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Assisstant = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Host1 = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Host2 = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Capacity = table.Column<int>(type: "int", nullable: false),
+                    AirLineOwningId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AirCrafts", x => x.AirCraftId);
+                    table.ForeignKey(
+                        name: "FK_AirCrafts_AirLines_AirLineOwningId",
+                        column: x => x.AirLineOwningId,
+                        principalSchema: "Airline",
+                        principalTable: "AirLines",
+                        principalColumn: "AirLineId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AirlinePhones",
+                columns: table => new
+                {
+                    AirLineId = table.Column<int>(type: "int", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AirlinePhones", x => new { x.AirLineId, x.PhoneNumber });
+                    table.ForeignKey(
+                        name: "FK_AirlinePhones_AirLines_AirLineId",
+                        column: x => x.AirLineId,
+                        principalSchema: "Airline",
+                        principalTable: "AirLines",
+                        principalColumn: "AirLineId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employees",
+                schema: "Airline",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Position = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    hiredate = table.Column<DateOnly>(type: "date", nullable: false),
+                    EmployeeWorkingId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employees", x => x.EmployeeId);
+                    table.ForeignKey(
+                        name: "FK_Employees_AirLines_EmployeeWorkingId",
+                        column: x => x.EmployeeWorkingId,
+                        principalSchema: "Airline",
+                        principalTable: "AirLines",
+                        principalColumn: "AirLineId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transactions",
+                schema: "Airline",
+                columns: table => new
+                {
+                    TransactionId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TransactionDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    TransactionsRecordedID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transactions", x => x.TransactionId);
+                    table.ForeignKey(
+                        name: "FK_Transactions_AirLines_TransactionsRecordedID",
+                        column: x => x.TransactionsRecordedID,
+                        principalSchema: "Airline",
+                        principalTable: "AirLines",
+                        principalColumn: "AirLineId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "drugBrands",
+                columns: table => new
+                {
+                    Brand = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    DrugCode = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_drugBrands", x => new { x.Brand, x.DrugCode });
+                    table.ForeignKey(
+                        name: "FK_drugBrands_Drugs_DrugCode",
+                        column: x => x.DrugCode,
+                        principalTable: "Drugs",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -168,6 +305,55 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                         column: x => x.SongTitle,
                         principalTable: "Songs",
                         principalColumn: "Title",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AircraftRoutes",
+                columns: table => new
+                {
+                    AircraftId = table.Column<int>(type: "int", nullable: false),
+                    RouteId = table.Column<int>(type: "int", nullable: false),
+                    Depature = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    NumOfPassengers = table.Column<int>(type: "int", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Arrival = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AircraftRoutes", x => new { x.AircraftId, x.RouteId, x.Depature });
+                    table.ForeignKey(
+                        name: "FK_AircraftRoutes_AirCrafts_AircraftId",
+                        column: x => x.AircraftId,
+                        principalSchema: "Airline",
+                        principalTable: "AirCrafts",
+                        principalColumn: "AirCraftId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AircraftRoutes_Routes_RouteId",
+                        column: x => x.RouteId,
+                        principalSchema: "Airline",
+                        principalTable: "Routes",
+                        principalColumn: "RouteId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeQualifications",
+                columns: table => new
+                {
+                    QualificationName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeQualifications", x => new { x.EmployeeId, x.QualificationName });
+                    table.ForeignKey(
+                        name: "FK_EmployeeQualifications_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalSchema: "Airline",
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -385,6 +571,17 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AircraftRoutes_RouteId",
+                table: "AircraftRoutes",
+                column: "RouteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AirCrafts_AirLineOwningId",
+                schema: "Airline",
+                table: "AirCrafts",
+                column: "AirLineOwningId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Album_Song_AlbumId",
                 table: "Album_Song",
                 column: "AlbumId");
@@ -395,9 +592,20 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                 column: "MusicianProductionId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_drugBrands_DrugCode",
+                table: "drugBrands",
+                column: "DrugCode");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_AssignedOfficeID",
                 table: "Employees",
                 column: "AssignedOfficeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employees_EmployeeWorkingId",
+                schema: "Airline",
+                table: "Employees",
+                column: "EmployeeWorkingId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Mus_Instrument_InstrumentId",
@@ -456,6 +664,12 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Transactions_TransactionsRecordedID",
+                schema: "Airline",
+                table: "Transactions",
+                column: "TransactionsRecordedID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Wards_SupervisorId",
                 table: "Wards",
                 column: "SupervisorId",
@@ -504,10 +718,19 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                 table: "Wards");
 
             migrationBuilder.DropTable(
+                name: "AircraftRoutes");
+
+            migrationBuilder.DropTable(
+                name: "AirlinePhones");
+
+            migrationBuilder.DropTable(
                 name: "Album_Song");
 
             migrationBuilder.DropTable(
                 name: "drugBrands");
+
+            migrationBuilder.DropTable(
+                name: "EmployeeQualifications");
 
             migrationBuilder.DropTable(
                 name: "Mus_Instrument");
@@ -525,7 +748,23 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                 name: "Prop_Owner");
 
             migrationBuilder.DropTable(
+                name: "Transactions",
+                schema: "Airline");
+
+            migrationBuilder.DropTable(
+                name: "AirCrafts",
+                schema: "Airline");
+
+            migrationBuilder.DropTable(
+                name: "Routes",
+                schema: "Airline");
+
+            migrationBuilder.DropTable(
                 name: "Albums");
+
+            migrationBuilder.DropTable(
+                name: "Employees",
+                schema: "Airline");
 
             migrationBuilder.DropTable(
                 name: "Instruments");
@@ -547,6 +786,10 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
 
             migrationBuilder.DropTable(
                 name: "Musicians");
+
+            migrationBuilder.DropTable(
+                name: "AirLines",
+                schema: "Airline");
 
             migrationBuilder.DropTable(
                 name: "Consultants");

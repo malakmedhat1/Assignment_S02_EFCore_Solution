@@ -24,5 +24,7 @@ namespace Assignment_S02_EFCore.Models.Airline
         [ForeignKey(nameof(AirLine.WorkingEmployee))]
         public int EmployeeWorkingId { get; set; }
         public AirLine EmployeeWorking { get; set; }= null!;
+
+        public ICollection<EmployeeQualifications> Qualifications { get; set; } = new List<EmployeeQualifications>();
     }
 }

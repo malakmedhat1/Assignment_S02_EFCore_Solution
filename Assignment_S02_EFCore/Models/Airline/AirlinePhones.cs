@@ -11,5 +11,6 @@ namespace Assignment_S02_EFCore.Models.Airline
         [ForeignKey(nameof(AirLine))]
         public int AirLineId { get; set; }
         public string PhoneNumber { get; set; }
+        public AirLine AirLine { get; set; }
     }
 }

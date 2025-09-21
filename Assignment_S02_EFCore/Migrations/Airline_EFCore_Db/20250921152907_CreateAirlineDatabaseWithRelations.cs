@@ -15,18 +15,6 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                 name: "Airline");
 
             migrationBuilder.CreateTable(
-                name: "AirlinePhones",
-                columns: table => new
-                {
-                    AirLineId = table.Column<int>(type: "int", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AirlinePhones", x => new { x.AirLineId, x.PhoneNumber });
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AirLines",
                 schema: "Airline",
                 columns: table => new
@@ -65,18 +53,6 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Drugs", x => x.Code);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmployeeQualifications",
-                columns: table => new
-                {
-                    QualificationName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    EmployeeId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeQualifications", x => new { x.EmployeeId, x.QualificationName });
                 });
 
             migrationBuilder.CreateTable(
@@ -175,6 +151,25 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                         principalTable: "AirLines",
                         principalColumn: "AirLineId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AirlinePhones",
+                columns: table => new
+                {
+                    AirLineId = table.Column<int>(type: "int", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AirlinePhones", x => new { x.AirLineId, x.PhoneNumber });
+                    table.ForeignKey(
+                        name: "FK_AirlinePhones_AirLines_AirLineId",
+                        column: x => x.AirLineId,
+                        principalSchema: "Airline",
+                        principalTable: "AirLines",
+                        principalColumn: "AirLineId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -322,6 +317,25 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                         principalSchema: "Airline",
                         principalTable: "Routes",
                         principalColumn: "RouteId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "EmployeeQualifications",
+                columns: table => new
+                {
+                    QualificationName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    EmployeeId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EmployeeQualifications", x => new { x.EmployeeId, x.QualificationName });
+                    table.ForeignKey(
+                        name: "FK_EmployeeQualifications_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalSchema: "Airline",
+                        principalTable: "Employees",
+                        principalColumn: "EmployeeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -693,10 +707,6 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                 name: "EmployeeQualifications");
 
             migrationBuilder.DropTable(
-                name: "Employees",
-                schema: "Airline");
-
-            migrationBuilder.DropTable(
                 name: "Mus_Instrument");
 
             migrationBuilder.DropTable(
@@ -727,6 +737,10 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                 name: "Albums");
 
             migrationBuilder.DropTable(
+                name: "Employees",
+                schema: "Airline");
+
+            migrationBuilder.DropTable(
                 name: "Instruments");
 
             migrationBuilder.DropTable(
@@ -745,11 +759,11 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                 name: "Properties");
 
             migrationBuilder.DropTable(
-                name: "AirLines",
-                schema: "Airline");
+                name: "Musicians");
 
             migrationBuilder.DropTable(
-                name: "Musicians");
+                name: "AirLines",
+                schema: "Airline");
 
             migrationBuilder.DropTable(
                 name: "Consultants");

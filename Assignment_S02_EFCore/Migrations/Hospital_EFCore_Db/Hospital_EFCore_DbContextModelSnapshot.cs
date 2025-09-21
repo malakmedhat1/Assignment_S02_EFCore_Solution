@@ -22,6 +22,230 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirCraft", b =>
+                {
+                    b.Property<int>("AirCraftId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AirCraftId"));
+
+                    b.Property<int>("AirLineOwningId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Assisstant")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("Capacity")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Host1")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Host2")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("MajPilot")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("AirCraftId");
+
+                    b.HasIndex("AirLineOwningId");
+
+                    b.ToTable("AirCrafts", "Airline");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirLine", b =>
+                {
+                    b.Property<int>("AirLineId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AirLineId"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ContPerson")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("AirLineId");
+
+                    b.ToTable("AirLines", "Airline");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AircraftRoutes", b =>
+                {
+                    b.Property<int>("AircraftId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RouteId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Depature")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Arrival")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumOfPassengers")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("AircraftId", "RouteId", "Depature");
+
+                    b.HasIndex("RouteId");
+
+                    b.ToTable("AircraftRoutes");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirlinePhones", b =>
+                {
+                    b.Property<int>("AirLineId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("AirLineId", "PhoneNumber");
+
+                    b.ToTable("AirlinePhones");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Employee", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("EmployeeWorkingId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Position")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateOnly>("hiredate")
+                        .HasColumnType("date");
+
+                    b.HasKey("EmployeeId");
+
+                    b.HasIndex("EmployeeWorkingId");
+
+                    b.ToTable("Employees", "Airline");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.EmployeeQualifications", b =>
+                {
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("QualificationName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("EmployeeId", "QualificationName");
+
+                    b.ToTable("EmployeeQualifications");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Route", b =>
+                {
+                    b.Property<int>("RouteId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RouteId"));
+
+                    b.Property<string>("Classification")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Destination")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("Distance")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Origin")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("RouteId");
+
+                    b.ToTable("Routes", "Airline");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Transaction", b =>
+                {
+                    b.Property<int>("TransactionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TransactionId"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TransactionsRecordedID")
+                        .HasColumnType("int");
+
+                    b.HasKey("TransactionId");
+
+                    b.HasIndex("TransactionsRecordedID");
+
+                    b.ToTable("Transactions", "Airline");
+                });
+
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.Consultant", b =>
                 {
                     b.Property<int>("Id")
@@ -48,6 +272,8 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Brand", "DrugCode");
+
+                    b.HasIndex("DrugCode");
 
                     b.ToTable("drugBrands");
                 });
@@ -423,6 +649,91 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                     b.ToTable("SalesOffices");
                 });
 
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirCraft", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.AirLine", "AirLineOwning")
+                        .WithMany("OwnedCraft")
+                        .HasForeignKey("AirLineOwningId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AirLineOwning");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AircraftRoutes", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.AirCraft", "AirCraft")
+                        .WithMany("AssignedRoutes")
+                        .HasForeignKey("AircraftId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.Route", "Route")
+                        .WithMany("RoutesAssigned")
+                        .HasForeignKey("RouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AirCraft");
+
+                    b.Navigation("Route");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirlinePhones", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.AirLine", "AirLine")
+                        .WithMany("ContactNumbers")
+                        .HasForeignKey("AirLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AirLine");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Employee", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.AirLine", "EmployeeWorking")
+                        .WithMany("WorkingEmployee")
+                        .HasForeignKey("EmployeeWorkingId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("EmployeeWorking");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.EmployeeQualifications", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.Employee", "Employee")
+                        .WithMany("Qualifications")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Transaction", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.AirLine", "TransactionsRecorded")
+                        .WithMany("RecordedTransactions")
+                        .HasForeignKey("TransactionsRecordedID")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("TransactionsRecorded");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.DrugBrand", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Hospital.Drugs", "Drugs")
+                        .WithMany("Brands")
+                        .HasForeignKey("DrugCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Drugs");
+                });
+
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.Nurse", b =>
                 {
                     b.HasOne("Assignment_S02_EFCore.Models.Hospital.Ward", "NerseServed")
@@ -623,6 +934,32 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
                     b.Navigation("Manger");
                 });
 
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirCraft", b =>
+                {
+                    b.Navigation("AssignedRoutes");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirLine", b =>
+                {
+                    b.Navigation("ContactNumbers");
+
+                    b.Navigation("OwnedCraft");
+
+                    b.Navigation("RecordedTransactions");
+
+                    b.Navigation("WorkingEmployee");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Employee", b =>
+                {
+                    b.Navigation("Qualifications");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Route", b =>
+                {
+                    b.Navigation("RoutesAssigned");
+                });
+
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.Consultant", b =>
                 {
                     b.Navigation("AssignedPatients");
@@ -632,6 +969,8 @@ namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
 
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.Drugs", b =>
                 {
+                    b.Navigation("Brands");
+
                     b.Navigation("DrugGived");
                 });
 

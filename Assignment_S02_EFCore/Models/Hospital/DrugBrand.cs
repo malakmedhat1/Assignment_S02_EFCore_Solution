@@ -11,6 +11,6 @@ namespace Assignment_S02_EFCore.Models.Hospital
         public string? Brand { get; set; }
         [ForeignKey(nameof(Drugs))]
         public string DrugCode { get; set; }
-       // public Drugs? Drugs { get; set; }
+       public Drugs Drugs { get; set; }= null!;
     }
 }

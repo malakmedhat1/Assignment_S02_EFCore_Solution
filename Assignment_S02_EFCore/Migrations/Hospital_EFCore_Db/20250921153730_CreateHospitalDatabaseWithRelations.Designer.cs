@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
+namespace Assignment_S02_EFCore.Migrations.Hospital_EFCore_Db
 {
-    [DbContext(typeof(Airline_EFCore_DbContext))]
-    [Migration("20250921151536_CreateAirlineDatabaseWithRelations")]
-    partial class CreateAirlineDatabaseWithRelations
+    [DbContext(typeof(Hospital_EFCore_DbContext))]
+    [Migration("20250921153730_CreateHospitalDatabaseWithRelations")]
+    partial class CreateHospitalDatabaseWithRelations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,6 +266,21 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                     b.ToTable("Consultants");
                 });
 
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.DrugBrand", b =>
+                {
+                    b.Property<string>("Brand")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DrugCode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Brand", "DrugCode");
+
+                    b.HasIndex("DrugCode");
+
+                    b.ToTable("drugBrands");
+                });
+
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.Drugs", b =>
                 {
                     b.Property<string>("Code")
@@ -331,7 +346,7 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("NurseDrugPatient");
+                    b.ToTable("NurseDrugPatients");
                 });
 
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.Patient", b =>
@@ -376,7 +391,7 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
 
                     b.HasIndex("ConsultantId");
 
-                    b.ToTable("PatientConsultant");
+                    b.ToTable("PatientConsultants");
                 });
 
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.Ward", b =>
@@ -667,6 +682,17 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                     b.Navigation("Route");
                 });
 
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirlinePhones", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.AirLine", "AirLine")
+                        .WithMany("ContactNumbers")
+                        .HasForeignKey("AirLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AirLine");
+                });
+
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Employee", b =>
                 {
                     b.HasOne("Assignment_S02_EFCore.Models.Airline.AirLine", "EmployeeWorking")
@@ -678,6 +704,17 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                     b.Navigation("EmployeeWorking");
                 });
 
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.EmployeeQualifications", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.Employee", "Employee")
+                        .WithMany("Qualifications")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Transaction", b =>
                 {
                     b.HasOne("Assignment_S02_EFCore.Models.Airline.AirLine", "TransactionsRecorded")
@@ -687,6 +724,17 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                         .IsRequired();
 
                     b.Navigation("TransactionsRecorded");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.DrugBrand", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Hospital.Drugs", "Drugs")
+                        .WithMany("Brands")
+                        .HasForeignKey("DrugCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Drugs");
                 });
 
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.Nurse", b =>
@@ -896,11 +944,18 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
 
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirLine", b =>
                 {
+                    b.Navigation("ContactNumbers");
+
                     b.Navigation("OwnedCraft");
 
                     b.Navigation("RecordedTransactions");
 
                     b.Navigation("WorkingEmployee");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Employee", b =>
+                {
+                    b.Navigation("Qualifications");
                 });
 
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Route", b =>
@@ -917,6 +972,8 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
 
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Hospital.Drugs", b =>
                 {
+                    b.Navigation("Brands");
+
                     b.Navigation("DrugGived");
                 });
 

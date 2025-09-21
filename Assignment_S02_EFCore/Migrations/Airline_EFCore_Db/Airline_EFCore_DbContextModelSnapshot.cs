@@ -664,6 +664,17 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                     b.Navigation("Route");
                 });
 
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirlinePhones", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.AirLine", "AirLine")
+                        .WithMany("ContactNumbers")
+                        .HasForeignKey("AirLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AirLine");
+                });
+
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Employee", b =>
                 {
                     b.HasOne("Assignment_S02_EFCore.Models.Airline.AirLine", "EmployeeWorking")
@@ -673,6 +684,17 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
                         .IsRequired();
 
                     b.Navigation("EmployeeWorking");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.EmployeeQualifications", b =>
+                {
+                    b.HasOne("Assignment_S02_EFCore.Models.Airline.Employee", "Employee")
+                        .WithMany("Qualifications")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Transaction", b =>
@@ -893,11 +915,18 @@ namespace Assignment_S02_EFCore.Migrations.Airline_EFCore_Db
 
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.AirLine", b =>
                 {
+                    b.Navigation("ContactNumbers");
+
                     b.Navigation("OwnedCraft");
 
                     b.Navigation("RecordedTransactions");
 
                     b.Navigation("WorkingEmployee");
+                });
+
+            modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Employee", b =>
+                {
+                    b.Navigation("Qualifications");
                 });
 
             modelBuilder.Entity("Assignment_S02_EFCore.Models.Airline.Route", b =>
